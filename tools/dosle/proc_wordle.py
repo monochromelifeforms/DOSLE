@@ -21,9 +21,18 @@ def Process(words):
     indeces += [idx]
     return indeces, singleList
 
+print("""#ifndef dosle_wordle_h
+#define dosle_wordle_h
+
+namespace wordle
+{
+""")
 names = [ "answerWord", "allowedWord" ]
 for i, words in enumerate([answerWords, sorted(list(set(allowedWords) - set(answerWords)))]):
     processed = Process(words)
     print('    const unsigned* {0}Indeces = {{{1}}};'.format(names[i], ", ".join(str(idx) for idx in processed[0])))
     print('    const char* {0}s = "{1}";'.format(names[i], "\\\n".join(textwrap.wrap(processed[1], 80))))
     print()
+
+print("} // namespace wordle")
+print("#endif // dosle_wordle_h")
