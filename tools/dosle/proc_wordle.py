@@ -14,13 +14,14 @@ def Process(words):
         if word[0] != prev:
             indeces += [idx]
             prev = word[0]
-        singleList += word[1:-1]
+        singleList += word[1:-1].upper()
         idx += 1
     indeces += [idx]
-
-    print(len(singleList))
     return indeces, singleList
 
-print(Process(answerWords))
-
-#print(Process(list(set(allowedWords) - set(answerWords))))
+names = [ "answerWord", "allowedWord" ]
+for i, words in enumerate([answerWords, sorted(list(set(allowedWords) - set(answerWords)))]):
+    processed = Process(words)
+    print('    const unsigned* {0}Indeces = {{{1}}};'.format(names[i], ", ".join(str(idx) for idx in processed[0])))
+    print('    const char* {0}s = "{1}";'.format(names[i], processed[1]))
+    print()
