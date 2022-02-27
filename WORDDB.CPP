@@ -29,7 +29,7 @@ void CWordDb::ChooseRandomWord()
 
 int CWordDb::IsValidWord(const char* word) const
 {
-  if (word[0] < 'A' || word[0] > 'Z')
+  if (word[0] < 'A' || word[0] > 'Z' || strlen(word) != 5)
     return 0;
 
   unsigned idxLo = p_indeces[word[0] - 'A'];
