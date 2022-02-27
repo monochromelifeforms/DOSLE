@@ -8,6 +8,7 @@ int main(void)
 {
   CWordDb answers(answerWordIndeces, answerWords);
   CWordDb allowed(allowedWordIndeces, allowedWords);
+
   for (unsigned i = 0; i < 10; ++i)
   {
     answers.ChooseRandomWord();

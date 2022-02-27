@@ -1,5 +1,8 @@
 #include "worddb.hpp"
 
+#ifdef DEBUG
+#include <iostream.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 
@@ -9,7 +12,6 @@ CWordDb::CWordDb(const unsigned* indeces, const char* wordList)
   s_currentWord[5] = 0; // That way, the string is always zero-terminated.
   randomize();
 }
-
 
 void CWordDb::ChooseRandomWord()
 {
@@ -32,9 +34,16 @@ int CWordDb::IsValidWord(const char* word) const
 
   unsigned idxLo = p_indeces[word[0] - 'A'];
   unsigned idxHi = p_indeces[word[0] - 'A' + 1];
-  while (idxLo + 1 < idxHi)
+  while (idxLo < idxHi)
   {
     const unsigned idxMid = (idxLo + idxHi) >> 1;
+#ifdef DEBUG
+    cout << idxLo << "/" << idxMid << "/" << idxHi << " ";
+    cout << word[0] << p_wordList[idxMid<<2]
+		    << p_wordList[(idxMid<<2) + 1]
+		    << p_wordList[(idxMid<<2) + 2]
+		    << p_wordList[(idxMid<<2) + 3] << endl;
+#endif
     const int result = strncmp(&p_wordList[idxMid<<2], &word[1], 4);
     if (result == 0)
       return !0;
