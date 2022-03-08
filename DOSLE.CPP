@@ -1,6 +1,7 @@
 #include "worddb.hpp"
 #include "wordle.hpp"
 #include "prox.hpp"
+#include "dmgasimp.hpp"
 
 #include <iostream.h>
 #include <conio.h>
@@ -8,9 +9,14 @@
 
 int main(void)
 {
+  CDisplay* display = new CDisplayMgaSimple();
+  display->ClearScreen();
+  display->ShowGrid();
+
   CWordDb answers(answerWordIndeces, answerWords);
   CWordDb allowed(allowedWordIndeces, allowedWords);
 
+#ifdef dfjkhdkjfghdfhk
   answers.ChooseRandomWord();
   cout << "Start guessing..." << endl;
   const unsigned maxRounds = 6;
@@ -50,6 +56,7 @@ int main(void)
 
   if (!flagWon)
     cout << "Sorry. The word was '" << answers.CurrentWord() << "'. Better luck next time!" << endl;
+#endif
 
   getch();
   return 0;
