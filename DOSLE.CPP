@@ -9,7 +9,7 @@
 
 int main(void)
 {
-  CDisplay* display = new CDisplayMgaSimple();
+  CDisplay* display = new CDisplayMgaSimple(5, 2);
   display->ClearScreen();
   display->ShowGrid();
 
