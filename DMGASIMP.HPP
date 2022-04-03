@@ -16,6 +16,7 @@ class CDisplayMgaSimple : public CDisplay
 			      const char* rightPlace) const;
     virtual void ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const;
     virtual void ShowStats(unsigned stats[7]) const;
+    virtual void ShowMessage(const char* message, Style_t style = StyleNeutral) const;
   protected:
     unsigned u_offset;
 

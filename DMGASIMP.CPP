@@ -82,3 +82,11 @@ void CDisplayMgaSimple::ShowCharacter(unsigned column, unsigned row, char charac
 void CDisplayMgaSimple::ShowStats(unsigned /*stats*/[7]) const
 {
 }
+
+void CDisplayMgaSimple::ShowMessage(const char* message, Style_t style) const
+{
+  unsigned pos = 0;
+  while (message[pos] != 0)
+    putc(pos, 14, message[pos++], u_offset, style);
+}
+
