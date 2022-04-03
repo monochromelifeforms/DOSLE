@@ -24,7 +24,9 @@ int main(void)
   char guess[6]; // includes zero-termination
   while (1)
   {
+    display->IndicateRow(row);
     const char c = getch();
+    display->ClearMessage(); // In case we displayed something in the previous iteration.
     guess[col] = c;
     if (c == 27) // ESC
       break;

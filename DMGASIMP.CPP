@@ -90,3 +90,17 @@ void CDisplayMgaSimple::ShowMessage(const char* message, Style_t style) const
     putc(pos, 14, message[pos++], u_offset, style);
 }
 
+void CDisplayMgaSimple::ClearMessage() const
+{
+  for (unsigned col = 0; col < (u_offset%80); ++col)
+    putc(col, 14, ' ', u_offset, StyleNeutral);
+}
+
+void CDisplayMgaSimple::IndicateRow(unsigned indicatedRow) const
+{
+  for (unsigned row = 0; row < 6; ++row)
+    if (row == indicatedRow)
+      putc(-2, 1 + 2*row, 0x1A, u_offset);
+    else
+      putc(-2, 1 + 2*row, ' ', u_offset);
+}
