@@ -1,6 +1,5 @@
 #include "worddb.hpp"
 #include "wordle.hpp"
-#include "prox.hpp"
 #include "dmgasimp.hpp"
 
 #include <iostream.h>
@@ -25,6 +24,7 @@ int main(void)
   while (1)
   {
     display->IndicateRow(row);
+    display->ShowKeyboard();
     if (row == 6)
     {
       char message[80];

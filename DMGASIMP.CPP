@@ -1,6 +1,7 @@
 #include "dmgasimp.hpp"
 
 #include <assert.h>
+#include <string.h>
 
 char* const vidmem = (char*)0xB0000000;
 
@@ -67,6 +68,24 @@ void CDisplayMgaSimple::ShowGrid() const
 
 void CDisplayMgaSimple::ShowKeyboard() const
 {
+  static const char row1[] = "QWERTYUIOP";
+  static const char row2[] = "ASDFGHJKL";
+  static const char row3[] = "ZXCVBNM";
+  static const char* rows[] = { row1, row2, row3 };
+  for (unsigned row = 0; row < 3; ++row)
+  {
+    for (unsigned i = 0; i < strlen(rows[row]); ++i)
+    {
+      if (strchr(p_unused, rows[row][i]) != NULL)
+	putc(25 + row + i*2, row, 'x', u_offset, StyleUnused);
+      else if (strchr(p_used, rows[row][i]) != NULL)
+	putc(25 + row + i*2, row, rows[row][i], u_offset, StyleUsed);
+      else if (strchr(p_rightPlace, rows[row][i]) != NULL)
+	putc(25 + row + i*2, row, rows[row][i], u_offset, StyleRightPlace);
+      else
+	putc(25 + row + i*2, row, rows[row][i], u_offset, StyleNeutral);
+    }
+  }
 }
 
 void CDisplayMgaSimple::ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const
@@ -92,7 +111,7 @@ void CDisplayMgaSimple::ShowMessage(const char* message, Style_t style) const
 
 void CDisplayMgaSimple::ClearMessage() const
 {
-  for (unsigned col = 0; col < (u_offset%80); ++col)
+  for (unsigned col = 0; col < (80 - (u_offset%80)); ++col)
     putc(col, 14, ' ', u_offset, StyleNeutral);
 }
 
