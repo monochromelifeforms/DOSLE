@@ -16,6 +16,18 @@ int main(void)
   CWordDb answers(answerWordIndeces, answerWords);
   CWordDb allowed(allowedWordIndeces, allowedWords);
 
+  unsigned col = 0;
+  unsigned row = 0;
+  while (1)
+  {
+    const char c = getch();
+    if (col < 5 && c >= ' ')
+      display->ShowCharacter(col++, row, c, StyleNeutral);
+    if (c == 'q')
+      break;
+  };
+
+
 #ifdef dfjkhdkjfghdfhk
   answers.ChooseRandomWord();
   cout << "Start guessing..." << endl;

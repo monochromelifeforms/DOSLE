@@ -62,17 +62,23 @@ void CDisplayMgaSimple::ShowGrid() const
   }
 }
 
-void CDisplayMgaSimple::ShowKeyboard(const char* neutral,
-				     const char* unused,
-				     const char* used,
-				     const char* rightPlace) const
+void CDisplayMgaSimple::ShowKeyboard(const char* /*neutral*/,
+				     const char* /*unused*/,
+				     const char* /*used*/,
+				     const char* /*rightPlace*/) const
 {
 }
 
 void CDisplayMgaSimple::ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const
 {
+  const unsigned displayColumn = 2 + 4*column;
+  const unsigned displayRow = 1 + 2*row;
+  putc(displayColumn, displayRow, character, u_offset, style);
+  // surrounding spaces
+  putc(displayColumn - 1, displayRow, ' ', u_offset, style);
+  putc(displayColumn + 1, displayRow, ' ', u_offset, style);
 }
 
-void CDisplayMgaSimple::ShowStats(unsigned stats[7]) const
+void CDisplayMgaSimple::ShowStats(unsigned /*stats*/[7]) const
 {
 }
