@@ -25,6 +25,15 @@ int main(void)
   while (1)
   {
     display->IndicateRow(row);
+    if (row == 6)
+    {
+      char message[80];
+      sprintf(message, "Sorry. The word was '%s'. Better luck next time!", answers.CurrentWord());
+      display->ShowMessage(message);
+      getch();
+      break;
+    }
+
     const char c = getch();
     display->ClearMessage(); // In case we displayed something in the previous iteration.
     guess[col] = c;
@@ -41,7 +50,7 @@ int main(void)
 	if (guess[i] >= 'a' && guess[i] <= 'z')
 	  guess[i] = guess[i] - 'a' + 'A';
       guess[5] = 0;
-
+      // Is this a valid word?
       if (!answers.IsValidWord(guess) && !allowed.IsValidWord(guess))
       {
 	char message[80];
@@ -52,6 +61,9 @@ int main(void)
 	col = 0;
 	continue;
       }
+      // Display the word.
+      display->LockWord(row, answers.CurrentWord(), guess);
+      // Is this the solution?
       if (strncmp(guess, answers.CurrentWord(), 5) == 0)
       {
 	char message[80];
@@ -60,7 +72,7 @@ int main(void)
 	getch();
 	break;
       }
-      // TODO: display prxomity correctly
+      // Advance to next row.
       col = 0;
       ++row;
     }

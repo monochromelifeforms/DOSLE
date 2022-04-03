@@ -28,7 +28,10 @@ void CDisplayMgaSimple::putc(unsigned col, unsigned row, char c, unsigned offset
 void CDisplayMgaSimple::ClearScreen() const
 {
   for (unsigned i = 0; i < 80*25; ++i)
+  {
     vidmem[i*2] = 0x20;
+    vidmem[i*2 + 1] = 0x07;
+  }
 }
 
 void CDisplayMgaSimple::ShowGrid() const
@@ -62,10 +65,7 @@ void CDisplayMgaSimple::ShowGrid() const
   }
 }
 
-void CDisplayMgaSimple::ShowKeyboard(const char* /*neutral*/,
-				     const char* /*unused*/,
-				     const char* /*used*/,
-				     const char* /*rightPlace*/) const
+void CDisplayMgaSimple::ShowKeyboard() const
 {
 }
 

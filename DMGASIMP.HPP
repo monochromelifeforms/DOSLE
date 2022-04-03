@@ -10,10 +10,7 @@ class CDisplayMgaSimple : public CDisplay
     { u_offset = colOffset + rowOffset*80; }
     virtual void ClearScreen() const;
     virtual void ShowGrid() const;
-    virtual void ShowKeyboard(const char* neutral,
-			      const char* unused,
-			      const char* used,
-			      const char* rightPlace) const;
+    virtual void ShowKeyboard() const;
     virtual void ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const;
     virtual void ShowStats(unsigned stats[7]) const;
     virtual void ShowMessage(const char* message, Style_t style = StyleNeutral) const;
