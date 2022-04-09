@@ -9,9 +9,10 @@
 
 int main(void)
 {
-  CDisplay* display = new CDisplayMgaSimple(5, 2);
+  CDisplay* display = new CDisplayMgaSimple(17, 3);
   display->ClearScreen();
   display->ShowGrid();
+  display->ShowStats();
 
   CWordDb answers(answerWordIndeces, answerWords);
   CWordDb allowed(allowedWordIndeces, allowedWords);
@@ -30,6 +31,8 @@ int main(void)
       char message[80];
       sprintf(message, "Sorry. The word was '%s'. Better luck next time!", answers.CurrentWord());
       display->ShowMessage(message);
+      display->AddStat(); // game lost
+      display->ShowStats();
       getch();
       break;
     }
@@ -69,6 +72,8 @@ int main(void)
 	char message[80];
 	sprintf(message, "Congratulations! '%s' was the sought word!", guess);
 	display->ShowMessage(message);
+	display->AddStat(row);
+	display->ShowStats();
 	getch();
 	break;
       }
@@ -77,24 +82,6 @@ int main(void)
       ++row;
     }
   };
-
-#ifdef dfjkhdkjfghdfhk
-  answers.ChooseRandomWord();
-  cout << "Start guessing..." << endl;
-  const unsigned maxRounds = 6;
-  int flagWon = 0;
-  for (unsigned round = 0; round < maxRounds; ++round)
-  {
-    char guess[80];
-    cout << round+1 << "/" << maxRounds << ": ";
-    cin >> guess;
-
-    PrintProximity(guess, answers.CurrentWord());
-  }
-
-  if (!flagWon)
-    cout << "Sorry. The word was '" << answers.CurrentWord() << "'. Better luck next time!" << endl;
-#endif
 
   return 0;
 }

@@ -1,6 +1,7 @@
 #include "display.hpp"
 
 #include <string.h>
+#include <mem.h>
 
 void AddToList(char* list, char character)
 {
@@ -18,6 +19,14 @@ CDisplay::CDisplay()
   p_unused[0] = 0;
   p_used[0] = 0;
   p_rightPlace[0] = 0;
+  memset((void*)a_stats, 0, sizeof(unsigned)*7);
+  a_stats[0]=1;
+  a_stats[1]=10;
+  a_stats[2]=40;
+  a_stats[3]=100;
+  a_stats[4]=70;
+  a_stats[5]=55;
+  a_stats[6]=5;
 }
 
 void CDisplay::LockWord(unsigned row, const char* answer, const char* guess)
