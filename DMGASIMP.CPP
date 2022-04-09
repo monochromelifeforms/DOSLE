@@ -79,10 +79,10 @@ void CDisplayMgaSimple::ShowKeyboard() const
     {
       if (strchr(p_unused, rows[row][i]) != NULL)
 	PutChar(25 + row + i*2, row, 'x', u_offset, StyleUnused);
-      else if (strchr(p_used, rows[row][i]) != NULL)
-	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleUsed);
       else if (strchr(p_rightPlace, rows[row][i]) != NULL)
 	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleRightPlace);
+      else if (strchr(p_used, rows[row][i]) != NULL)
+	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleUsed);
       else
 	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleNeutral);
     }
@@ -143,6 +143,8 @@ void CDisplayMgaSimple::ShowStats() const
       const unsigned barLen = len * double(a_stats[i])/double(max) + 0.5;
       for (j = 0; j < barLen; ++j)
 	PutChar(31+j, 4+i, ' ', u_offset, StyleRightPlace);
+      for (j = barLen; j < len; ++j)
+	PutChar(31+j, 4+i, ' ', u_offset, StyleNeutral);
       sprintf(message, "%.1lf%%", 100.*double(a_stats[i])/double(total));
       const unsigned messageLen = strlen(message);
       const unsigned messageOffset = (messageLen+2 <= barLen) ? (barLen-messageLen-2) : barLen;
