@@ -7,11 +7,12 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int main(int /*argc*/, char **argv)
 {
   CDisplay* display = new CDisplayMgaSimple(17, 3);
   display->ClearScreen();
   display->ShowGrid();
+  display->LoadStats(argv[0]);
   display->ShowStats();
 
   CWordDb answers(answerWordIndeces, answerWords);
@@ -69,10 +70,11 @@ int main(void)
       // Is this the solution?
       if (strncmp(guess, answers.CurrentWord(), 5) == 0)
       {
+	display->ShowKeyboard();
 	char message[80];
 	sprintf(message, "Congratulations! '%s' was the sought word!", guess);
 	display->ShowMessage(message);
-	display->AddStat(row);
+	display->AddStat(row + 1);
 	display->ShowStats();
 	getch();
 	break;

@@ -21,12 +21,15 @@ class CDisplay
     virtual void IndicateRow(unsigned /*indicatedRow*/) const {} // DO nothing by default.
     virtual void ShowStats() const=0;
     // Abstract classes need virtual destructors.
-    virtual ~CDisplay() {}
+    // Saves stats to s_saveFile.
+    virtual ~CDisplay();
 
     // Lock a word in place in the given row. Uses overloaded ShowCharacter() above.
     void LockWord(unsigned row, const char* answer, const char* guess);
     // Add the number of guesses required to find a word. "7" means the game was lost.
     void AddStat(unsigned guesses = 7) { ++a_stats[guesses-1]; }
+    // Load stats from the save file.
+    void LoadStats(const char* exeFile);
 
   protected:
     char p_unused[27];
@@ -34,6 +37,8 @@ class CDisplay
     char p_rightPlace[27];
 
     unsigned a_stats[7]; // 1-6 guesses, and "lost"
+
+    char *s_saveFile;
 
     CDisplay(); // Initialize the character lists and stats.
 };

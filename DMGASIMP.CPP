@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <conio.h>
+#include <dos.h> // Contains outp() in TC101.
 
 char* const vidmem = (char*)0xB0000000;
 
@@ -92,12 +93,12 @@ void CDisplayMgaSimple::ShowKeyboard() const
   {
     for (unsigned i = 0; i < strlen(rows[row]); ++i)
     {
-      if (strchr(p_unused, rows[row][i]) != NULL)
-	PutChar(25 + row + i*2, row, 'x', u_offset, StyleUnused);
-      else if (strchr(p_rightPlace, rows[row][i]) != NULL)
+      if (strchr(p_rightPlace, rows[row][i]) != NULL)
 	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleRightPlace);
       else if (strchr(p_used, rows[row][i]) != NULL)
 	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleUsed);
+      else if (strchr(p_unused, rows[row][i]) != NULL)
+	PutChar(25 + row + i*2, row, 'x', u_offset, StyleUnused);
       else
 	PutChar(25 + row + i*2, row, rows[row][i], u_offset, StyleNeutral);
     }

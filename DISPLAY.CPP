@@ -1,5 +1,6 @@
 #include "display.hpp"
 
+#include <fstream.h>
 #include <string.h>
 #include <mem.h>
 
@@ -15,18 +16,12 @@ void AddToList(char* list, char character)
 
 
 CDisplay::CDisplay()
+  : s_saveFile(NULL)
 {
   p_unused[0] = 0;
   p_used[0] = 0;
   p_rightPlace[0] = 0;
   memset((void*)a_stats, 0, sizeof(unsigned)*7);
-  a_stats[0]=1;
-  a_stats[1]=10;
-  a_stats[2]=40;
-  a_stats[3]=100;
-  a_stats[4]=70;
-  a_stats[5]=55;
-  a_stats[6]=5;
 }
 
 void CDisplay::LockWord(unsigned row, const char* answer, const char* guess)
@@ -71,3 +66,28 @@ void CDisplay::LockWord(unsigned row, const char* answer, const char* guess)
     }
   }
 }
+
+void CDisplay::LoadStats(const char* exeFile)
+{
+  if (s_saveFile != NULL)
+    delete s_saveFile;
+
+  const size_t pathLength = strlen(exeFile);
+  s_saveFile = new char[pathLength + 1];
+  strcpy(s_saveFile, exeFile); // copies too much
+  strcpy(s_saveFile + pathLength - 3, "SAV"); // modify extension
+
+  ifstream fs(s_saveFile);
+  fs.read((char*)&a_stats[0], 7*sizeof(unsigned));
+}
+
+CDisplay::~CDisplay()
+{
+  if (s_saveFile != NULL)
+  {
+    ofstream fs(s_saveFile);
+    fs.write((char*)&a_stats[0], 7*sizeof(unsigned));
+    delete s_saveFile;
+  }
+}
+
