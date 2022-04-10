@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <conio.h>
 
 char* const vidmem = (char*)0xB0000000;
 
@@ -29,11 +30,25 @@ void CDisplayMgaSimple::PutChar(unsigned col, unsigned row, char c, unsigned off
 
 void CDisplayMgaSimple::ClearScreen() const
 {
+  // Make curser disappear, wherever it is.
+  outp(0x3B4, 0x0A); // starting line for curser
+  outp(0x3B5, 13);
+  outp(0x3B4, 0x0B); // ending line for curser
+  outp(0x3B5, 12); // is before the start
   for (unsigned i = 0; i < 80*25; ++i)
   {
     vidmem[i*2] = 0x20;
     vidmem[i*2 + 1] = 0x07;
   }
+}
+
+CDisplayMgaSimple::~CDisplayMgaSimple()
+{
+  // Restore default cursor.
+  outp(0x3B4, 0x0A); // starting line for curser
+  outp(0x3B5, 11);
+  outp(0x3B4, 0x0B); // ending line for curser
+  outp(0x3B5, 12);
 }
 
 void CDisplayMgaSimple::ShowGrid() const

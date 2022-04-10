@@ -16,6 +16,7 @@ class CDisplayMgaSimple : public CDisplay
     virtual void ClearMessage() const;
     virtual void IndicateRow(unsigned indicatedRow) const;
     virtual void ShowStats() const;
+    virtual ~CDisplayMgaSimple();
   protected:
     unsigned u_offset;
 

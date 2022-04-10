@@ -83,5 +83,8 @@ int main(void)
     }
   };
 
+  // Clean-Up
+  delete display; // Apparently, BC3.1 does not call the destructor after program termination.
+
   return 0;
 }
