@@ -27,42 +27,40 @@ CDisplay::CDisplay()
 void CDisplay::LockWord(unsigned row, const char* answer, const char* guess)
 {
   unsigned i;
+  unsigned char printedBitPattern = 0;
+  unsigned char usedBitPattern = 0;
 
-  // Find "right-place" characters.
-  unsigned char rightPlaceBitPattern;
+  // First, print all right-place characters.
   for (i = 0; i < 5; ++i)
-    if (answer[i] == guess[i])
-    {
+    if (answer[i] == guess[i]) {
       ShowCharacter(i, row, guess[i], StyleRightPlace);
       AddToList(p_rightPlace, guess[i]); // append current "right-place" character to list
-      rightPlaceBitPattern |= (1<<i); // keep track of right-place characters
+      usedBitPattern |= (1<<i); // We've used this for reporting already.
+      printedBitPattern |= (1<<i); // We don't want to go over this again in the second iteration.
     }
 
-  // Go through remaining characters.
-  for (i = 0; i < 5; ++i)
-  {
-    if (rightPlaceBitPattern & (1<<i))
-      continue; // This character was in the right place, so we ignore it here.
-    unsigned flagIsUsed = 0;
-    for (unsigned j = 0; j < 5; ++j)
-    {
-      if (rightPlaceBitPattern & (1<<j))
-	continue; // Ignore it in both answer and guess words.
-      if (guess[i] == answer[j])
-      {
-	flagIsUsed = !0;
+  // Now, go through the remaining characters.
+  for (i = 0; i < 5; ++i) {
+    if (printedBitPattern & (1<<i))
+      continue; // This was in the right place and already printed above.
+    // Is the character used anywhere?
+    int flagFound = 0;
+    for (unsigned j = 0; j < 5; ++j) {
+      if (usedBitPattern & (1<<j))
+	continue; // We already used this character for reporting.
+      if (answer[j] == guess[i]) {
+	flagFound = !0;
+	usedBitPattern |= (1<<j);
 	break;
       }
     }
-    if (flagIsUsed)
-    {
-      AddToList(p_used, guess[i]);
+    if (flagFound) {
       ShowCharacter(i, row, guess[i], StyleUsed);
+      AddToList(p_used, guess[i]);
     }
-    else
-    {
-      AddToList(p_unused, guess[i]);
+    else {
       ShowCharacter(i, row, guess[i], StyleUnused);
+      AddToList(p_unused, guess[i]);
     }
   }
 }
@@ -77,7 +75,7 @@ void CDisplay::LoadStats(const char* exeFile)
   strcpy(s_saveFile, exeFile); // copies too much
   strcpy(s_saveFile + pathLength - 3, "SAV"); // modify extension
 
-  ifstream fs(s_saveFile);
+  ifstream fs(s_saveFile, ios::in | ios::binary);
   fs.read((char*)&a_stats[0], 7*sizeof(unsigned));
 }
 
@@ -85,7 +83,7 @@ CDisplay::~CDisplay()
 {
   if (s_saveFile != NULL)
   {
-    ofstream fs(s_saveFile);
+    ofstream fs(s_saveFile, ios::out | ios::trunc | ios::binary);
     fs.write((char*)&a_stats[0], 7*sizeof(unsigned));
     delete s_saveFile;
   }

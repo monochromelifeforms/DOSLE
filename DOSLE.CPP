@@ -85,8 +85,8 @@ int main(int /*argc*/, char **argv)
     }
   };
 
-  // Clean-Up
-  delete display; // Apparently, BC3.1 does not call the destructor after program termination.
+  // Clean-Up. Brings back the curser and saves the stats.
+  delete display;
 
   return 0;
 }
