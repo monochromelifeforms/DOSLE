@@ -1,6 +1,7 @@
 #include "worddb.hpp"
 #include "wordle.hpp"
 #include "dmgasimp.hpp"
+#include "dmda.hpp"
 
 #include <iostream.h>
 #include <conio.h>
@@ -10,6 +11,7 @@
 int main(int /*argc*/, char **argv)
 {
   CDisplay* display = new CDisplayMgaSimple(17, 3);
+  //CDisplay* display = new CDisplayMda();
   display->ClearScreen();
   display->ShowGrid();
   display->LoadStats(argv[0]);
