@@ -22,3 +22,4 @@ The software is not written with performance or file size in mind.
 Instead, it makes full use of object-oriented C++ functionality.
 I wanted to know how well C++ development would have worked in the
 late 80s or early 90s. It turns out to work surprisingly well.
+
