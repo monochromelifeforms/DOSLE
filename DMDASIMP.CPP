@@ -131,10 +131,13 @@ void CDisplayMdaSimple::ClearMessage() const
 void CDisplayMdaSimple::IndicateRow(unsigned indicatedRow) const
 {
   for (unsigned row = 0; row < 6; ++row)
-    if (row == indicatedRow)
-      PutChar(-2, 1 + 2*row, 0x1A, u_offset);
-    else
+    if (row == indicatedRow) {
+      PutChar(-2, 1 + 2*row, 0x10, u_offset);
+      PutChar(5*4+2, 1 + 2*row, 0x11, u_offset);
+    } else {
       PutChar(-2, 1 + 2*row, ' ', u_offset);
+      PutChar(5*4+2, 1 + 2*row, ' ', u_offset);
+    }
 }
 
 void CDisplayMdaSimple::ShowStats() const
