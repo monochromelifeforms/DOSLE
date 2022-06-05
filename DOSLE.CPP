@@ -1,17 +1,18 @@
 #include "worddb.hpp"
 #include "wordle.hpp"
-#include "dmdasimp.hpp"
-#include "dmda.hpp"
+#include "display.hpp"
+#include "hndargs.hpp"
 
 #include <iostream.h>
 #include <conio.h>
 #include <stdio.h>
 #include <string.h>
 
-int main(int /*argc*/, char **argv)
+int main(int argc, char **argv)
 {
-  CDisplay* display = new CDisplayMdaSimple(17, 3);
-  //CDisplay* display = new CDisplayMda();
+  CDisplay* display = HandleArguments(argc, argv);
+  if (!display) return 1; // Exit with error code.
+
   display->ClearScreen();
   display->ShowGrid();
   display->LoadStats(argv[0]);
