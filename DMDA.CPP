@@ -1,5 +1,7 @@
 #include "dmda.hpp"
 
+#include <string.h>
+
 // Contains the first 127 characters as 8x8 bitpatterns.
 char far* const fontLower = (char far*)0xffa6000e;
 
@@ -48,10 +50,48 @@ void CDisplayMda::ShowCharacter(unsigned column, unsigned row, char character, S
     }
 }
 
-//virtual void ShowMessage(const char* message, Style_t style = StyleNeutral) const;
-//virtual void ClearMessage() const;
+void CDisplayMda::ShowMessage(const char* message, Style_t style) const
+{
+  unsigned currentRow = 16; // We start in this row.
+  unsigned startColumn = (u_offset % 80) + 23;
+
+  unsigned startPrint = 0;
+  unsigned lastSpace = 0;
+  for (unsigned i = 0; i < strlen(message); ++i) {
+    if (message[i] == 0x20) lastSpace = i;
+    if (startColumn + i - startPrint == 79 || i == strlen(message)-1) {
+      const unsigned endPrint = (i == strlen(message)-1)?strlen(message):lastSpace;
+      for (unsigned j = startPrint; j < endPrint; ++j)
+	PutChar(startColumn + j - startPrint, currentRow, message[j], 0, style);
+      startPrint = lastSpace + 1;
+      ++currentRow;
+    }
+  }
+}
+
+void CDisplayMda::ClearMessage() const
+{
+  for (unsigned row = 16; row < 18; ++row)
+    for (unsigned col = (u_offset % 80) + 23 ; col < 80; ++col)
+      PutChar(col, row, 0x20, 0);
+}
 
 void CDisplayMda::IndicateRow(unsigned indicatedRow) const
 {
-  // do nothing for the time being
+  if (indicatedRow > 0) {
+    // Delete what we printed before.
+    for (unsigned i = 0; i < 3; ++i)
+      for (unsigned j = 1; j < 3; ++j) {
+	PutChar(-2-i, (indicatedRow-1)*4 + j, 0x20, gridOffset);
+	PutChar(5*8+1+i, (indicatedRow-1)*4 + j, 0x20, gridOffset);
+      }
+  }
+  for (unsigned j = 1; j < 3; ++j) {
+    PutChar(-4, indicatedRow*4 + j, 0xB0, gridOffset);
+    PutChar(-3, indicatedRow*4 + j, 0xB1, gridOffset);
+    PutChar(-2, indicatedRow*4 + j, 0xB2, gridOffset);
+    PutChar(5*8+1, indicatedRow*4 + j, 0xB2, gridOffset);
+    PutChar(5*8+2, indicatedRow*4 + j, 0xB1, gridOffset);
+    PutChar(5*8+3, indicatedRow*4 + j, 0xB0, gridOffset);
+  }
 }

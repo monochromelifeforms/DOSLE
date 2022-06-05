@@ -10,8 +10,8 @@
 
 int main(int /*argc*/, char **argv)
 {
-  CDisplay* display = new CDisplayMgaSimple(17, 3);
-  //CDisplay* display = new CDisplayMda();
+  //CDisplay* display = new CDisplayMgaSimple(17, 3);
+  CDisplay* display = new CDisplayMda();
   display->ClearScreen();
   display->ShowGrid();
   display->LoadStats(argv[0]);
