@@ -153,14 +153,17 @@ void CDisplayMgaSimple::ShowStats() const
     PutChar(30, 4+i, 0xB3, u_offset);
     if (total == 0)
       PutChar(32, 4+i, '0', u_offset);
-    else
-    {
-      const unsigned len = 15; // TODO: move to a global place?
-      const unsigned barLen = len * double(a_stats[i])/double(max) + 0.5;
+    else {
+      const unsigned len = 79 - (u_offset % 80) - 31; // Go to right edge of screen.
+      const unsigned barLen2 = 2. * len * double(a_stats[i])/double(max) + 0.5;
+      const unsigned barLen = barLen2>>1;
+      // Draw bar.
       for (j = 0; j < barLen; ++j)
 	PutChar(31+j, 4+i, ' ', u_offset, StyleRightPlace);
       for (j = barLen; j < len; ++j)
 	PutChar(31+j, 4+i, ' ', u_offset, StyleNeutral);
+      if (barLen2&0x1) PutChar(31+barLen, 4+i, 0xDD, u_offset, StyleNeutral); // 'Half' bar.
+      // Print message, either in bar, or after it.
       sprintf(message, "%.1lf%%", 100.*double(a_stats[i])/double(total));
       const unsigned messageLen = strlen(message);
       const unsigned messageOffset = (messageLen+2 <= barLen) ? (barLen-messageLen-2) : barLen;
