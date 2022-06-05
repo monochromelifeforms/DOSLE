@@ -1,12 +1,12 @@
-#ifndef dosle_dmgasimp_h
-#define dosle_dmgasimp_h
+#ifndef dosle_dmdasimp_h
+#define dosle_dmdasimp_h
 
 #include "display.hpp"
 
-class CDisplayMgaSimple : public CDisplay
+class CDisplayMdaSimple : public CDisplay
 {
   public:
-    CDisplayMgaSimple(unsigned colOffset = 0, unsigned rowOffset = 0)
+    CDisplayMdaSimple(unsigned colOffset = 0, unsigned rowOffset = 0)
       : CDisplay(), u_offset(colOffset + rowOffset*80) {}
     virtual void ClearScreen() const;
     virtual void ShowGrid() const;
@@ -16,7 +16,7 @@ class CDisplayMgaSimple : public CDisplay
     virtual void ClearMessage() const;
     virtual void IndicateRow(unsigned indicatedRow) const;
     virtual void ShowStats() const;
-    virtual ~CDisplayMgaSimple();
+    virtual ~CDisplayMdaSimple();
   protected:
     unsigned u_offset;
 
@@ -24,4 +24,4 @@ class CDisplayMgaSimple : public CDisplay
 
 };
 
-#endif // dosle_dmgasimp_h
+#endif // dosle_dmdasimp_h

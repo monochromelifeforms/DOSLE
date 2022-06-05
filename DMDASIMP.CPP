@@ -1,4 +1,4 @@
-#include "dmgasimp.hpp"
+#include "dmdasimp.hpp"
 
 #include <assert.h>
 #include <stdio.h>
@@ -8,7 +8,7 @@
 
 char* const vidmem = (char*)0xB0000000;
 
-void CDisplayMgaSimple::PutChar(unsigned col, unsigned row, char c, unsigned offset, Style_t style)
+void CDisplayMdaSimple::PutChar(unsigned col, unsigned row, char c, unsigned offset, Style_t style)
 {
   const unsigned address = (offset + col + row*80)<<1;
   vidmem[address] = c;
@@ -29,7 +29,7 @@ void CDisplayMgaSimple::PutChar(unsigned col, unsigned row, char c, unsigned off
   }
 }
 
-void CDisplayMgaSimple::ClearScreen() const
+void CDisplayMdaSimple::ClearScreen() const
 {
   // Make curser disappear, wherever it is.
   outp(0x3B4, 0x0A); // starting line for curser
@@ -43,7 +43,7 @@ void CDisplayMgaSimple::ClearScreen() const
   }
 }
 
-CDisplayMgaSimple::~CDisplayMgaSimple()
+CDisplayMdaSimple::~CDisplayMdaSimple()
 {
   // Restore default cursor.
   outp(0x3B4, 0x0A); // starting line for curser
@@ -52,7 +52,7 @@ CDisplayMgaSimple::~CDisplayMgaSimple()
   outp(0x3B5, 12);
 }
 
-void CDisplayMgaSimple::ShowGrid() const
+void CDisplayMdaSimple::ShowGrid() const
 {
   unsigned col, row;
   // corners
@@ -83,7 +83,7 @@ void CDisplayMgaSimple::ShowGrid() const
   }
 }
 
-void CDisplayMgaSimple::ShowKeyboard() const
+void CDisplayMdaSimple::ShowKeyboard() const
 {
   static const char row1[] = "QWERTYUIOP";
   static const char row2[] = "ASDFGHJKL";
@@ -105,7 +105,7 @@ void CDisplayMgaSimple::ShowKeyboard() const
   }
 }
 
-void CDisplayMgaSimple::ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const
+void CDisplayMdaSimple::ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const
 {
   const unsigned displayColumn = 2 + 4*column;
   const unsigned displayRow = 1 + 2*row;
@@ -115,20 +115,20 @@ void CDisplayMgaSimple::ShowCharacter(unsigned column, unsigned row, char charac
   PutChar(displayColumn + 1, displayRow, ' ', u_offset, style);
 }
 
-void CDisplayMgaSimple::ShowMessage(const char* message, Style_t style) const
+void CDisplayMdaSimple::ShowMessage(const char* message, Style_t style) const
 {
   unsigned pos = 0;
   while (message[pos] != 0)
     PutChar(pos, 14, message[pos++], u_offset, style);
 }
 
-void CDisplayMgaSimple::ClearMessage() const
+void CDisplayMdaSimple::ClearMessage() const
 {
   for (unsigned col = 0; col < (80 - (u_offset%80)); ++col)
     PutChar(col, 14, ' ', u_offset, StyleNeutral);
 }
 
-void CDisplayMgaSimple::IndicateRow(unsigned indicatedRow) const
+void CDisplayMdaSimple::IndicateRow(unsigned indicatedRow) const
 {
   for (unsigned row = 0; row < 6; ++row)
     if (row == indicatedRow)
@@ -137,7 +137,7 @@ void CDisplayMgaSimple::IndicateRow(unsigned indicatedRow) const
       PutChar(-2, 1 + 2*row, ' ', u_offset);
 }
 
-void CDisplayMgaSimple::ShowStats() const
+void CDisplayMdaSimple::ShowStats() const
 {
   unsigned i, j; // loop variables
   char message[80];
