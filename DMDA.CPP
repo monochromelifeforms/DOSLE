@@ -11,22 +11,7 @@ void CDisplayMda::ShowGrid() const
 {
   for (unsigned col = 0; col < 5; ++col)
     for (unsigned row = 0; row < 6; ++row)
-    {
-      PutChar(col*8,   row*4,   0xDA, gridOffset); // upper left corner
-      PutChar(col*8+7, row*4,   0xBF, gridOffset); // upper right corner
-      PutChar(col*8,   row*4+3, 0xC0, gridOffset); // lower left corner
-      PutChar(col*8+7, row*4+3, 0xD9, gridOffset); // lower right corner
-
-      unsigned i;
-      for (i = 1; i < 7; ++i) {
-	PutChar(col*8+i, row*4,   0xC4, gridOffset);
-	PutChar(col*8+i, row*4+3, 0xC4, gridOffset);
-      }
-      for (i = 1; i < 3; ++i) {
-	PutChar(col*8,   row*4+i, 0xB3, gridOffset);
-	PutChar(col*8+7, row*4+i, 0xB3, gridOffset);
-      }
-    }
+      UnshowCharacter(col, row);
 }
 
 void CDisplayMda::ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const
@@ -48,6 +33,26 @@ void CDisplayMda::ShowCharacter(unsigned column, unsigned row, char character, S
 	}
       }
     }
+}
+
+void CDisplayMda::UnshowCharacter(unsigned col, unsigned row) const
+{
+  PutChar(col*8,   row*4,   0xDA, gridOffset); // upper left corner
+  PutChar(col*8+7, row*4,   0xBF, gridOffset); // upper right corner
+  PutChar(col*8,   row*4+3, 0xC0, gridOffset); // lower left corner
+  PutChar(col*8+7, row*4+3, 0xD9, gridOffset); // lower right corner
+
+  unsigned i;
+  for (i = 1; i < 7; ++i) {
+    PutChar(col*8+i, row*4,   0xC4, gridOffset);
+    PutChar(col*8+i, row*4+1, 0x20, gridOffset);
+    PutChar(col*8+i, row*4+2, 0x20, gridOffset);
+    PutChar(col*8+i, row*4+3, 0xC4, gridOffset);
+  }
+  for (i = 1; i < 3; ++i) {
+    PutChar(col*8,   row*4+i, 0xB3, gridOffset);
+    PutChar(col*8+7, row*4+i, 0xB3, gridOffset);
+  }
 }
 
 void CDisplayMda::ShowMessage(const char* message, Style_t style) const

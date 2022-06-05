@@ -16,6 +16,7 @@ class CDisplay
     virtual void ShowGrid() const=0;
     virtual void ShowKeyboard() const=0;
     virtual void ShowCharacter(unsigned column, unsigned row, char character, Style_t style) const=0;
+    virtual void UnshowCharacter(unsigned column, unsigned row) const;
     virtual void ShowMessage(const char* message, Style_t style = StyleNeutral) const=0;
     virtual void ClearMessage() const {} // Do nothing by default.
     virtual void IndicateRow(unsigned /*indicatedRow*/) const {} // DO nothing by default.

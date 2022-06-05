@@ -14,7 +14,6 @@ void AddToList(char* list, char character)
   }
 }
 
-
 CDisplay::CDisplay()
   : s_saveFile(NULL)
 {
@@ -63,6 +62,12 @@ void CDisplay::LockWord(unsigned row, const char* answer, const char* guess)
       AddToList(p_unused, guess[i]);
     }
   }
+}
+
+void CDisplay::UnshowCharacter(unsigned column, unsigned row) const
+{
+  // By default, we just show a space to unshow a character.
+  ShowCharacter(column, row, 0x20, StyleNeutral);
 }
 
 void CDisplay::LoadStats(const char* exeFile)

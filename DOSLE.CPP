@@ -48,7 +48,7 @@ int main(int /*argc*/, char **argv)
     if (col < 5 && c >= ' ')
       display->ShowCharacter(col++, row, c, StyleNeutral);
     if (c == 8 && col > 0) // backspace
-      display->ShowCharacter(--col, row, ' ', StyleNeutral);
+      display->UnshowCharacter(--col, row);
     if (c == 13 && col == 5) // enter
     {
       // Sanitize guess.
@@ -63,7 +63,7 @@ int main(int /*argc*/, char **argv)
 	sprintf(message, "'%s' is not a valid word. Try again.", guess);
 	display->ShowMessage(message);
 	for (col = 0; col < 5; ++col)
-	  display->ShowCharacter(col, row, ' ', StyleNeutral);
+	  display->UnshowCharacter(col, row);
 	col = 0;
 	continue;
       }
