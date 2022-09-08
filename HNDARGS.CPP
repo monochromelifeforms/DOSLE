@@ -6,11 +6,21 @@
 
 #include <iostream.h>
 #include <string.h>
+#include <stdlib.h>
+
+char* const vidmemMda = (char*)0xB0000000;
 
 CDisplay* HandleArguments(int argc, char **argv)
 {
   if (argc == 1) {
-    // TODO: Auto-detect graphics adapter.
+    // Check for MDA
+    const char c = vidmemMda[0];
+    vidmemMda[0] = !c;
+    if (vidmemMda[0] == c) {
+      cerr << "Currently, only MDA display mode is supported." << endl;
+      exit(1);
+    }
+    vidmemMda[0] = c;
     return new CDisplayMdaSimple(17, 3);
   } else if (strcmp(argv[1], "/h") == 0) {
     // Help message.
