@@ -4,7 +4,7 @@ A clone of WORDLE that runs in DOS.
 
 ## How to Run
 
-The only file that needs to be downloaded is `[DOSLE.EXE]`. Run this on any PC running some kind of DOS with an MDA or compatible
+The only file that needs to be downloaded is `[DOSLE.EXE](DOSLE.EXE)`. Run this on any PC running some kind of DOS with an MDA or compatible
 graphics card.
 
 If you don't have such a computer, you can use DOSBOX. Be sure to set
