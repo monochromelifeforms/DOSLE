@@ -4,14 +4,16 @@ A clone of WORDLE that runs in DOS.
 
 ## How to Run
 
-The only file that needs to be downloaded is [`DOSLE.EXE`](https://github.com/monochromelifeforms/DOSLE/raw/refs/heads/main/DOSLE.EXE)).
+The only file that needs to be downloaded is
+[`DOSLE.EXE`](https://github.com/monochromelifeforms/DOSLE/raw/refs/heads/main/DOSLE.EXE).
+
 Run this on any PC running some kind of DOS with an MDA or compatible graphics card.
 
 If you don't have such a computer, you can use DOSBOX. Be sure to set
 ```
 machine = hercules
 ```
-in the dosbox configuration file.
+in the DOSBOX configuration file.
 
 Currently, the game implements two text-mode-based representations of the
 WORDLE grid. They can be selected with the /m or /M command line
