@@ -1,6 +1,8 @@
+# DOSLE
+
 A clone of WORDLE that runs in DOS.
 
-# How to Run
+## How to Run
 
 The only file that needs to be downloaded is `DOSLE.EXE`. Run this on any PC running some kind of DOS with an MDA or compatible
 graphics card.
@@ -19,7 +21,7 @@ The score is tracked in a file name derived from the executable file
 name, replacing '.EXE' by '.SAV'. To reset the scores, simply delete
 the .SAV file.
 
-# Implementation Details
+## Implementation Details
 
 The game itself was developed 100% on a 286 with an MDA-compatible graphics adapter,
 using Borland Turbo C++ 1.01.
